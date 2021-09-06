@@ -4,6 +4,14 @@
 		<div class="control-panel">
 			<button class="play-btn" @click="playSounds">Play</button>
 			<button class="stop-btn" @click="stopSounds">Stop</button>
+
+			<button class="rec-btn" @click="handleRec">
+				{{ recTitle }}
+			</button>
+
+			<button class="stop-btn" :disabled="!rec" @click="playRec">
+				Play Last Rec
+			</button>
 		</div>
 	</section>
 </template>
@@ -19,7 +27,33 @@ export default {
 		},
 		stopSounds() {
 			this.$store.dispatch({ type: 'stopPlay' })
+			this.$store.commit({
+				type: 'addAction', action: { use: 'dispatch', payload: { type: 'stopPlay' } }
+			})
 		},
+
+
+		handleRec() {
+			if (!this.$store.state.startRecTime && !this.$store.state.stopRecTime ||
+				this.$store.state.startRecTime && this.$store.state.stopRecTime) {
+				this.$store.commit({ type: 'startRec' })
+				return
+			}
+			this.$store.commit({ type: 'stopRec' })
+		},
+		playRec() {
+			this.$store.dispatch({ type: 'playRec' })
+		}
+	},
+	computed: {
+		recTitle() {
+			if (!this.$store.state.startRecTime && !this.$store.state.stopRecTime) return 'Start Rec'
+			if (this.$store.state.startRecTime && this.$store.state.stopRecTime) return 'Start Rec'
+			return 'Stop Rec'
+		},
+		rec() {
+			return this.$store.getters.rec
+		}
 	},
 
 	components: {

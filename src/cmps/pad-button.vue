@@ -21,15 +21,16 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			isActive: false
-		}
-	},
 	methods: {
 		toggleActive() {
-			this.$store.commit({ type: 'toggleSoundToPlay', button: this.button })
-			this.isActive = !this.isActive
+			const payload = { type: 'toggleSoundToPlay', button: this.button }
+			this.$store.commit(payload)
+			this.$store.commit({ type: 'addAction', action: { use: 'commit', payload } })
+		}
+	},
+	computed: {
+		isActive() {
+			return this.$store.state.soundsToPlay.find(sound => sound.name === this.button.name)
 		}
 	},
 }
