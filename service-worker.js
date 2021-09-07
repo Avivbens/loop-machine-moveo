@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/loop-machine-moveo/precache-manifest.55b0d720a021af5510385734a70d74d5.js"
+  "/loop-machine-moveo/precache-manifest.d787e2cf73cd50724734421cdca56533.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "frontend"});
+workbox.core.setCacheNameDetails({prefix: "loop-machine"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
