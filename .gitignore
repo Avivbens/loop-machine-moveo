@@ -1,6 +1,10 @@
 .DS_Store
 node_modules
 
+dist
+github
+github.pub
+
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
