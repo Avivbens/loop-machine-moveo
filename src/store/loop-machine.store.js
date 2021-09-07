@@ -8,15 +8,15 @@ export default new Vuex.Store({
     state: {
         soundsToPlay: [],
         sounds: tapPadService.getButtons(),
-
         playInterval: null,
-
 
         actionsQueue: null,
         startRecTime: null,
         stopRecTime: null,
 
-        rec: JSON.parse(localStorage.rec || null) || null
+        rec: null,
+        // rec: JSON.parse(localStorage.rec || null) || null,
+        isPlayingRec: false
     },
     getters: {
         sounds(state) {
@@ -43,10 +43,13 @@ export default new Vuex.Store({
                 try {
                     tapPadService.playSound(sound.audio)
                 } catch (error) {
-
                     // TODO handle save as deep copy for later
-                    // const audio = new Audio()
-                    // audio.src = (require(sound.url))
+                    // console.log(`'../assets/sounds/120_future_funk_beats_25.mp3' === sound.url`, '../assets/sounds/120_future_funk_beats_25.mp3' === sound.url)
+                    // console.log(`sound.url`, sound.url)
+                    // const { url } = sound
+                    // const audio = new Audio(`${url}`)
+                    // const audio = new Audio(require(`${url}`))
+                    // const audio = new Audio(require('../assets/sounds/120_future_funk_beats_25.mp3'))
                     // tapPadService.playSound(audio)
                 }
             })
@@ -84,7 +87,10 @@ export default new Vuex.Store({
             state.rec = { rec, startRecTime: state.startRecTime, stopRecTime: state.stopRecTime }
 
             localStorage.rec = JSON.stringify(state.rec)
-            console.log(`JSON.parse(JSON.stringify(state.rec))`, JSON.parse(JSON.stringify(state.rec)))
+            console.log(`rec`, JSON.parse(JSON.stringify(state.rec)))
+        },
+        playRec(state, { isPlaying }) {
+            state.isPlayingRec = isPlaying
         },
 
         addAction(state, { action }) {
@@ -115,9 +121,11 @@ export default new Vuex.Store({
 
 
         playRec(context) {
+            context.commit({ type: 'playRec', isPlaying: true })
             context.commit({ type: 'zeroSoundToPlay' })
             context.dispatch({ type: 'stopPlay' })
 
+            // const rec = JSON.parse(JSON.stringify(context.state.rec))
             const rec = context.state.rec
 
             const loopTime = rec.stopRecTime - rec.startRecTime
@@ -136,10 +144,14 @@ export default new Vuex.Store({
                     context[action.use](action.payload)
                     tempStack.push(rec.rec.shift())
 
-                    if (!rec.rec.length) {
-                        clearInterval(interval)
-                        rec.rec = tempStack
-                    }
+                }
+
+                if (loopTime < counter) {
+                    clearInterval(interval)
+                    rec.rec = tempStack
+                    context.dispatch({ type: 'stopPlay' })
+                    context.commit({ type: 'zeroSoundToPlay' })
+                    context.commit({ type: 'playRec', isPlaying: false })
                 }
             }, 10)
         }

@@ -1,6 +1,33 @@
 // CMPS
+@import "./cmps/app-header";
 @import "./cmps/tap-pad";
 @import "./cmps/pad-button";
 
 // VIEWS
+@import "./views/home";
 @import "./views/loop-machine";
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: roboto;
+}
+
+#app {
+    height: 100%;
+}
+
+button {
+    cursor: pointer;
+}
+
+@font-face {
+    font-family: roboto;
+    src: url("../assets/fonts/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: roboto-bold;
+    src: url("../assets/fonts/Roboto-Bold.ttf");
+}

@@ -1,6 +1,10 @@
 <template>
-	<section class="home">
-		<p>this is home</p>
+	<section class="homepage">
+		<h1 class="title"><span>DJ</span> Loop Machine</h1>
+
+		<img src="@/assets/homephoto.webp" alt="" />
+
+		<button @click="$router.push('/app')">Try now for FREE!</button>
 	</section>
 </template>
 

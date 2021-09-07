@@ -1,8 +1,9 @@
 .tap-pad {
     display: grid;
-    grid-template-columns: repeat(3, minmax(110px, 200px));
-    grid-auto-rows: minmax(110px, 140px);
-    max-width: 600px;
-
+    grid-template-columns: repeat(3, minmax(90px, 300px));
+    grid-auto-rows: 1fr;
     gap: 10px;
+
+    max-width: 900px;
+    height: 65%;
 }

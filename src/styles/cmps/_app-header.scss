@@ -1,0 +1,29 @@
+.app-header {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    position: relative;
+
+    background-color: #1c1e1d;
+
+    > .logo {
+        width: 120px;
+        position: absolute;
+        left: 40px;
+        top: -30px;
+        cursor: pointer;
+    }
+
+    > a {
+        text-decoration: none;
+        color: white;
+
+        padding: 20px 5px;
+        box-sizing: border-box;
+        margin: 0 20px;
+
+        &:last-child {
+            margin-right: 40px;
+        }
+    }
+}
